@@ -55,3 +55,28 @@
     {% endfor %}
   ]
 }
+
+
+-------------------
+this work
+-------------------------------
+
+{
+  "delivery_note": "{{ doc.name }}",
+  "Date": "{{ doc.posting_date }}",
+  "customer": "{{ doc.customer }}",
+  "Total Amount": "{{ doc.total }}",
+  "Transporter": "{{ doc.custom_transport }}",
+  "Comments": "{{ doc.custom_comments }}",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "item_name": "{{ item.item_name.replace('"', '\\"') }}",
+      "qty": {{ item.qty }},
+      "rate": {{ item.rate }},
+      "amount": {{ item.amount }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+
