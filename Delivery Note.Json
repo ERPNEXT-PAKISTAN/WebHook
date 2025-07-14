@@ -1,3 +1,6 @@
+//if your item name, item code have specific corector like ", etc then use this.... 
+---------------
+
 {
   "delivery_note": "{{ doc.name }}",
   "customer": "{{ doc.customer }}",
@@ -5,6 +8,46 @@
     {% for item in doc.get("items") %}
     {
       "item_name": "{{ item.item_name | replace('"', '\\"') }}",
+      "qty": {{ item.qty }},
+      "rate": {{ item.rate }},
+      "amount": {{ item.amount }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+
+
+---------------------
+
+
+{
+  "delivery_note": "{{ doc.name }}",
+  "customer": "{{ doc.customer }}",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "item_code": "{{ item.item_code | replace('"', '\\"') }}",
+      "item_name": "{{ item.item_name | replace('"', '\\"') }}",
+      "qty": {{ item.qty }},
+      "rate": {{ item.rate }},
+      "amount": {{ item.amount }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+
+--------------------
+//if your do not have item name, item code have specific corector like ", etc then use this.... 
+------------------
+
+{
+  "delivery_note": "{{ doc.name }}",
+  "customer": "{{ doc.customer }}",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "item_code": "{{ item.item_code }}",
+      "item_name": "{{ item.item_name }}",
       "qty": {{ item.qty }},
       "rate": {{ item.rate }},
       "amount": {{ item.amount }}
