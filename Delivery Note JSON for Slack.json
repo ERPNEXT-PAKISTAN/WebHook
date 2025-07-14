@@ -23,3 +23,10 @@ This is with comma and brecket ()
   "text": "*🚚 Delivery Note Submitted!*\n*Delivery Note:* {{ doc.name }}\n*Date:* {{ doc.posting_date }}\n*Customer:* {{ doc.customer }}\n*Transporter:* {{ doc.custom_transport or 'None' }}\n*Comments:* {{ doc.custom_comments or 'None' }}\n*Total Amount:* *Rs {{ "{:,.0f}".format(doc.total) }}*\n\n*🧾 Items:*{% for item in doc.get('items') %}\n• *{{ item.item_name.replace('\"', '\\\"') }}* ({{ "{:,.0f}".format(item.qty) }} × Rs {{ "{:,.0f}".format(item.rate) }} = Rs {{ "{:,.0f}".format(item.amount) }}){% endfor %}"
 }
 -----------------------------------
+
+//Option-4
+This is without comma and brecket () instead of like this ||
+
+{
+  "text": "*📦 Delivery Note Created*\n*Delivery Note:* {{ doc.name }}\n*Customer:* {{ doc.customer }}\n\n*Items Delivered:*\n{% for item in doc.get('items') %}- *{{ item.item_name.replace('"', '\\"') }}* | Qty: {{ item.qty }} | Rate: {{ item.rate }} | Amount: {{ item.amount }}\n{% endfor %}"
+}
