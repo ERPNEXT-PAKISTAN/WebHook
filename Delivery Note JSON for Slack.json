@@ -1,0 +1,25 @@
+//Option-1
+
+{
+  "text": "*🚚 Delivery Note Submitted!*\n*Delivery Note:* {{ doc.name }}\n*Date:* {{ doc.posting_date }}\n*Customer:* {{ doc.customer }}\n*Transporter:* {{ doc.custom_transport or "None" }}\n*Comments:* {{ doc.custom_comments or "None" }}\n*Total Amount:* *Rs {{ '{:,.0f}'.format(doc.total) }}*\n\n*🧾 Items:*{% for item in doc.get('items') %}\n• *{{ item.item_name.replace('\"', '\\\"') }}*\n Qty: `{{ item.qty }} {{ item.uom }}`  |  Rate: `Rs {{ item.rate }}`  |  Amount: `Rs {{ item.amount }}`{% endfor %}"
+}
+
+----------------------
+
+//Option-2
+with One Deciemal 
+
+{
+  "text": "*🚚 Delivery Note Submitted!*\n*Delivery Note:* {{ doc.name }}\n*Date:* {{ doc.posting_date }}\n*Customer:* {{ doc.customer }}\n*Transporter:* {{ doc.custom_transport or 'None' }}\n*Comments:* {{ doc.custom_comments or 'None' }}\n*Total Amount:* *Rs {{ '{:,.0f}'.format(doc.total) }}*\n\n*🧾 Items:*{% for item in doc.get('items') %}\n• *{{ item.item_name.replace('\"', '\\\"') }}* {{ item.qty }} {{ item.uom }} × Rs {{ item.rate }} = Rs {{ item.amount }}{% endfor %}"
+}
+
+
+---------------------
+
+//Option-3
+This is with comma and brecket ()
+
+{
+  "text": "*🚚 Delivery Note Submitted!*\n*Delivery Note:* {{ doc.name }}\n*Date:* {{ doc.posting_date }}\n*Customer:* {{ doc.customer }}\n*Transporter:* {{ doc.custom_transport or 'None' }}\n*Comments:* {{ doc.custom_comments or 'None' }}\n*Total Amount:* *Rs {{ "{:,.0f}".format(doc.total) }}*\n\n*🧾 Items:*{% for item in doc.get('items') %}\n• *{{ item.item_name.replace('\"', '\\\"') }}* ({{ "{:,.0f}".format(item.qty) }} × Rs {{ "{:,.0f}".format(item.rate) }} = Rs {{ "{:,.0f}".format(item.amount) }}){% endfor %}"
+}
+-----------------------------------
