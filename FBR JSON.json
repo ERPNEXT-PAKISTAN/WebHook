@@ -1,0 +1,31 @@
+{
+  "invoiceRefNo": "{{ doc.name }}",
+  "invoiceRefNo": "{{ doc.custom_invoice_no }}",
+  "Date": "{{ doc.posting_date }}",
+  "Seller Bussiness Name": "{{ doc.company }}",
+  "sellerAddress": "{{ "12-KM Multan Road Lahore" }}",
+  "sellerProvince": "{{ "Punjab" }}",
+  "buyerBusiness Name": "{{ doc.customer }}",
+  "buyer NTNC NIC": "{{ doc.tax_id }}",
+  "Total Tax Exclusive": "{{ doc.total }}",
+  "Total Tax Inclusive": "{{ doc.grand_total }}",
+  "Sales Tax Amount": "{{ doc.total_taxes_and_charges }}",
+  "Invoice Type": "{{ doc.custom_invoice_type }}",
+  "Tax Payer Type": "{{ doc.custom_tax_payer_type }}",
+  "buyerProvince": "{{ doc.custom_fbr_province }}",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "item_name": "{{ item.item_name.replace('"', '\\\"') }}",
+      "qty": {{ item.qty }},
+      "rate": {{ item.rate }},
+      "valueSalesExcludingST": {{ item.amount }},
+      "Sale Type": "{{ item.custom_sale_type or '' }}",
+      "SRO Schedual No": "{{ item.custom_sro_schedule_no or '' }}",
+      "SRO Item SNo": "{{ item.custom_sro_item_sno or '' }}",
+      "HS Code": "{{ item.custom_hs_code or '' }}",
+      "FBR UoM": "{{ item.custom_fbr_uom or '' }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
