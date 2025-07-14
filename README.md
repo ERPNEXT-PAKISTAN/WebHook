@@ -9,7 +9,7 @@ contains punctuation marks and special characters, often found on a standard QWE
 ;	            Semicolon    
 :	            Colon    
 '             Apostrophe (single quote)    
-`            	`   
+`            	
 \	            Backslash   
 ]	            Closing square bracket   
 }	            Closing curly brace   
