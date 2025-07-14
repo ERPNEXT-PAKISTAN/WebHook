@@ -1,0 +1,14 @@
+{
+  "delivery_note": "{{ doc.name }}",
+  "customer": "{{ doc.customer }}",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "item_name": "{{ item.item_name | replace('"', '\\"') }}",
+      "qty": {{ item.qty }},
+      "rate": {{ item.rate }},
+      "amount": {{ item.amount }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
