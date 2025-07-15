@@ -1,0 +1,51 @@
+{
+  "invoiceRefNo": "{{ doc.name }}",
+  "customInvoiceNo": "{{ doc.custom_invoice_no }}",
+  "Date": "{{ doc.posting_date }}",
+  "SellerBusinessName": "{{ doc.company }}",
+  "sellerAddress": "12-KM Multan Road Lahore",
+  "sellerProvince": "Punjab",
+  "buyerBusinessName": "{{ doc.customer }}",
+  "buyerNTNCNIC": "{{ doc.tax_id }}",
+  "TotalTaxExclusive": "{{ doc.total }}",
+  "TotalTaxInclusive": "{{ doc.grand_total }}",
+  "SalesTaxAmount": "{{ doc.total_taxes_and_charges }}",
+  "InvoiceType": "{{ doc.custom_invoice_type }}",
+  "TaxPayerType": "{{ doc.custom_tax_payer_type }}",
+  "buyerProvince": "{{ doc.custom_fbr_province }}",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "item_name": "{{ item.item_name.replace('"', '\\\"') }}",
+      "qty": {{ item.qty }},
+      "rate": {{ item.rate }},
+      "valueSalesExcludingST": {{ item.amount }},
+      "SaleType": "{{ item.custom_sale_type or '' }}",
+      "SROScheduleNo": "{{ item.custom_sro_schedule_no or '' }}",
+      "SROItemSNo": "{{ item.custom_sro_item_sno or '' }}",
+      "HSCode": "{{ item.custom_hs_code or '' }}",
+      "FBRUoM": "{{ item.custom_fbr_uom or '' }}",
+      "tax_details": {
+        {% if item.item_tax_template %}
+          {% set tax_template = item.item_tax_template %}
+          {% if tax_template.tax_rate is defined %}
+            "rate": {{ tax_template.tax_rate }},
+            "tax_amount": {{ (item.amount * tax_template.tax_rate / 100) | round(2) }}
+          {% else %}
+            {% set tax_rate = frappe.get_value("Item Tax Template", tax_template, "tax_rate") %}
+            "rate": {{ tax_rate or 0 }},
+            "tax_amount": {{ (item.amount * (tax_rate or 0) / 100) | round(2) }}
+          {% endif %}
+        {% elif doc.taxes and doc.taxes[0] %}
+          {% set tax = doc.taxes[0] %}
+          "rate": {{ tax.rate }},
+          "tax_amount": {{ (item.amount * tax.rate / 100) | round(2) }}
+        {% else %}
+          "rate": 0,
+          "tax_amount": 0
+        {% endif %}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
