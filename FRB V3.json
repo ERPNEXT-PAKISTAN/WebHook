@@ -1,0 +1,44 @@
+{
+  "customInvoiceNo": "{{ doc.custom_invoice_no }}",
+  "TotalTaxExclusive": "{{ doc.total }}",
+  "TotalTaxInclusive": "{{ doc.grand_total }}",
+  "SalesTaxAmount": "{{ doc.total_taxes_and_charges }}",
+  "InvoiceType": "{{ doc.custom_invoice_type }}",
+  "invoiceDate": "{{ doc.posting_date }}",
+  "SellerBusinessName": "{{ doc.company }}",
+  "sellerProvince": "Punjab",
+  "sellerAddress": "12-KM Multan Road Lahore",
+  "buyerNTNCNIC": "{{ doc.tax_id }}",
+  "buyerBusinessName": "{{ doc.customer }}",
+  "buyerProvince": "{{ doc.custom_fbr_province }}",
+  "buyerAddress": "Clinix Central Warehouse 153-E Multan Road",
+  "buyerRegistrationType": "{{ doc.custom_tax_payer_type }}",
+  "invoiceRefNo": "{{ doc.name }}",
+  "scenarioId": "SN001",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "hsCode": "{{ item.custom_hs_code or '' }}",
+      "productDescription": "{{ item.item_name.replace('"', '\\\"') }}",
+      "uoM": "{{ item.custom_fbr_uom or '' }}",
+      "quantity": {{ item.qty }},
+      "totalValues": "{{ doc.grand_total }}",
+      "valueSalesExcludingST": {{ item.amount }},
+      "rate": {{ item.rate }},
+      "fixedNotifiedValueOrRetailPrice": 0,
+      "salesTaxApplicable": 18,
+      "salesTaxWithheldAtSource": 0,
+      "extraTax": "",
+      "furtherTax": 0,
+      "SROScheduleNo": "{{ item.custom_sro_schedule_no or '' }}",
+      "fedPayable": 0,
+      "SaleType": "{{ item.custom_sale_type or '' }}",
+      "SROItemSNo": "{{ item.custom_sro_item_sno or '' }}",
+      "tax_details": {
+        "rate": 18,
+        "tax_amount": {{ (item.amount * 18 / 100) | round(2) }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
