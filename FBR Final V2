@@ -1,0 +1,48 @@
+##only two field added double tax rate and taxable amount.......
+
+{
+  "invoiceType": "Sale Invoice",
+  "invoiceDate": "{{ doc.posting_date }}",
+  "sellerNTNCNIC": "1953701",
+  "sellerBusinessName": "{{ doc.company }}",
+  "sellerProvince": "Punjab",
+  "sellerAddress": "12 KM  MULTAN ROAD  CANAL VIEW SOCIETY",
+  "buyerNTNCNIC": "0150979",
+  "buyerBusinessName": "{{ doc.customer }}",
+  "buyerProvince": "Punjab",
+  "buyerAddress": "153-E, Multan Road, Lahore",
+  "buyerRegistrationType": "{{doc.custom_tax_payer_type }}",
+  "invoiceRefNo": "{{ doc.name }}",
+  "scenarioId": "SN001",
+  "items": [
+    {% for item in doc.get("items") %}
+    {
+      "hsCode": "{{ item.custom_hs_code or '' }}",
+      "productDescription": "{{ item.item_name.replace('"', '\\\"') }}",
+      "rate": "18%",
+      "uoM": "{{ item.uom or '' }}",
+      "quantity": "{{ item.qty }}",
+      "totalValues": {{ doc.grand_total }},
+      "valueSalesExcludingST": {{ doc.net_total }},
+      "fixedNotifiedValueOrRetailPrice": {{ item.rate }},
+      "salesTaxApplicable": 4544.1,
+      "salesTaxWithheldAtSource": 0,
+      "extraTax": "",
+      "furtherTax": 0,
+      "sroScheduleNo": "{{doc.custom_sro_schedule_no}}",
+      "fedPayable": 0,
+      "discount": 0,
+      "saleType": "{{ doc.custom_sale_type }}",
+      "sroItemSerialNo": {{doc.custom_sro_item_sno}}
+    }{% if not loop.last %},{% endif %}
+     {% endfor %}
+  ],
+    "taxes": [
+    {% for tax in doc.get("taxes") %}
+    {
+      "rate": {{ tax.rate }},
+      "tax_amount": {{ tax.tax_amount }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
