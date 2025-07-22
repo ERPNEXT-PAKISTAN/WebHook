@@ -17,7 +17,7 @@
     {
       "hsCode": "{{ item.custom_hs_code or '' }}",
       "productDescription": "{{ item.item_name.replace('"', '\\\"') }}",
-      "uoM": "{{ item.uom or '' }}",
+      "uoM": "{{ item.custom_fbr_uom or '' }}",
       "quantity": {{ item.qty }},
       "totalValues": {{ item.custom_tax_inclusive or 0 }},
       "valueSalesExcludingST": {{ item.amount }},
@@ -30,8 +30,8 @@
       "discount": 0,
       "saleType": "{{ doc.custom_sale_type or '' }}",
       "sroItemSerialNo": "{{ doc.custom_sro_item_sno or '' }}",
-      "salesTaxApplicable": {{ item.custom_taxs_amount or 0 }},
-      "rate": {{ item.custom_taxs_rate or 0 }}
+      "rate": "18%",
+      "salesTaxApplicable": {{ item.custom_taxs_amount or 0 }}
     }{% if not loop.last %},{% endif %}
     {% endfor %}
   ]
