@@ -5,7 +5,7 @@
   "sellerBusinessName": "{{ doc.company }}",
   "sellerProvince": "Punjab",
   "sellerAddress": "12 KM MULTAN ROAD CANAL VIEW SOCIETY",
-  "buyerNTNCNIC": "0150979",
+  "buyerNTNCNIC": "{{ doc.tax_id }}",
   "buyerBusinessName": "{{ doc.customer }}",
   "buyerProvince": "Punjab",
   "buyerAddress": "153-E, Multan Road, Lahore",
@@ -30,7 +30,7 @@
       "discount": 0,
       "saleType": "{{ doc.custom_sale_type or '' }}",
       "sroItemSerialNo": "{{ doc.custom_sro_item_sno or '' }}",
-      "rate": "18%",
+      "rate": "{{ item.custom_taxs_rate or 0 }}%",
       "salesTaxApplicable": {{ item.custom_taxs_amount or 0 }}
     }{% if not loop.last %},{% endif %}
     {% endfor %}
