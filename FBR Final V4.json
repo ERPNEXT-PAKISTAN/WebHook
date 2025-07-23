@@ -18,20 +18,20 @@
       "hsCode": "{{ item.custom_hs_code or '' }}",
       "productDescription": "{{ item.item_name.replace('"', '\\\"') }}",
       "uoM": "{{ item.custom_fbr_uom or '' }}",
-      "quantity": {{ item.qty }},
-      "totalValues": {{ item.custom_tax_inclusive or 0 }},
-      "valueSalesExcludingST": {{ item.amount }},
-      "fixedNotifiedValueOrRetailPrice": {{ item.rate }},
+      "quantity": {{ '%.2f'|format(item.qty) }},
+      "totalValues": {{ '%.2f'|format(item.custom_tax_inclusive or 0) }},
+      "valueSalesExcludingST": {{ '%.2f'|format(item.amount) }},
+      "fixedNotifiedValueOrRetailPrice": {{ '%.2f'|format(item.rate) }},
       "salesTaxWithheldAtSource": 0,
-      "extraTax": {{ item.custom_extra_tax or 0 }},
-      "furtherTax": {{ item.custom_further_tax or 0 }},
+      "extraTax": {{ '%.2f'|format(item.custom_extra_tax or 0) }},
+      "furtherTax": {{ '%.2f'|format(item.custom_further_tax or 0) }},
       "sroScheduleNo": "{{ doc.custom_sro_schedule_no or '' }}",
       "fedPayable": 0,
       "discount": 0,
       "saleType": "{{ doc.custom_sale_type or '' }}",
       "sroItemSerialNo": "{{ doc.custom_sro_item_sno or '' }}",
-      "rate": "{{ item.custom_taxs_rate or 0 }}%",
-      "salesTaxApplicable": {{ item.custom_taxs_amount or 0 }}
+      "rate": "{{ '%.2f'|format(item.custom_taxs_rate or 0) }}%",
+      "salesTaxApplicable": {{ '%.2f'|format(item.custom_taxs_amount or 0) }}
     }{% if not loop.last %},{% endif %}
     {% endfor %}
   ]
